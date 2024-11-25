@@ -1,5 +1,5 @@
 ## TODO
-- Verify the DC motor works correctly (can use the test script)
+- Verify the DC motor works correctly (can use the test script in the `reaction-wheel-control` folder)
     - Verify the `reaction-wheel-control` script works correctly
     - Tune the controller gain (might need to implement some low-pass filtering for the IMU data, it looks a little bit noisy)
 - Design the reaction wheel disk
@@ -7,6 +7,7 @@
 - Add limit switches to the gimbal motor
 
 ## Requirements
+From the Arduino Library Manager:
 - ICM2048 Sparkfun Library
 - SimpleFOC library
 
@@ -42,12 +43,13 @@ To verify the magnetometer has been calibrated correctly for soft and hard iron 
 Before calibration the three circles are likely elliptical (soft iron distortions) and have a zero error (hard iron distortion). After calibration all three should be of the same radius, aligned at zero and circular.
 
 ### IMU pinout
-- Blue: SDA (A4 on Nano, )
-- Yellow: SCL (A5 on Nano, )
+- Blue: SDA (A4 on Nano, 18 on Teensy 4.1)
+- Yellow: SCL (A5 on Nano, 19 on Teensy 4.1)
 
 ## Brushless DC (Gimbal) Motor Control
 
 Motor driver: https://core-electronics.com.au/sparkfun-brushless-motor-driver-3-phase-tmc6300.html
+
 Motor: https://core-electronics.com.au/three-phase-brushless-gimbal-stabilizer-motor.html
 
 ### Motor Pinout
@@ -71,6 +73,7 @@ Some simplifications are made here, just noting them down in case they potential
 ## Brushed DC (reaction wheel) Motor Control
 
 Motor: https://core-electronics.com.au/12v-dc-motor-350rpm-w-encoder-12kg-cm.html
+
 Driver: https://core-electronics.com.au/makerverse-motor-driver-2-channel.html
 
 ### Motor Pinout
