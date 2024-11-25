@@ -58,11 +58,8 @@ void setup() {
 }
 
 float target_velocity = 0;
-float error_accum = 0;
-float prev_error = 0;
-float desired_yaw = 0; 
-float Kp = 1;
-float Kd = 0; 
+float prev_yaw = 0;
+float Kp = 0.1;
 
 void loop() {
   
@@ -80,15 +77,6 @@ void loop() {
 
       double q0 = sqrt(1.0 - ((q1 * q1) + (q2 * q2) + (q3 * q3)));
 
-      Serial.print(F("Quat:"));
-      Serial.print(q1, 2);
-      Serial.print(", ");
-      Serial.print(q2, 2);
-      Serial.print(", ");
-      Serial.print(q3, 2);
-      Serial.print(", ");
-      Serial.println(q1, 2);
-
       double qw = q0;
       double qx = q2;
       double qy = q1;
@@ -102,16 +90,14 @@ void loop() {
       Serial.print(F(" Yaw:"));
       Serial.println(yaw, 1);
 
-      float error = (desired_yaw - yaw);
-      Serial.print(F("Error:"));
-      Serial.println(error, 2);
+      float delta_yaw = yaw - prev_yaw;
+      prev_yaw = yaw;
+      Serial.print(F("Yaw derivative:"));
+      Serial.println(delta_yaw, 2);
 
-      float error_rate = error - prev_error;
-      prev_error = error;
-      Serial.print(F("Error derivative:"));
-      Serial.println(error_rate, 2);
+      if (abs(delta_yaw) > 1)
+        target_velocity = target_velocity + Kp*delta_yaw; // Check orientation of IMU to motor, might need to swap signs
 
-      target_velocity = -(Kp*error + Kd*error_rate); 
       Serial.print(F("Target velocity:"));
       Serial.println(target_velocity, 2);
 
