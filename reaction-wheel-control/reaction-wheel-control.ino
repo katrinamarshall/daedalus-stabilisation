@@ -1,4 +1,11 @@
-#include <SimpleFOC.h>
+/*
+This sketch implements a reaction wheel which is designed to minimise rapid changes in the yaw angle of Daedalus
+
+It uses the DMP functions from the ICM20948 chip which fuse the accelerometer and gyroscope data into a Quaternion without any on-board processing required.
+Make sure
+
+*/
+
 #include <ICM_20948.h>
 
 // The value of the last bit of the I2C address for the IMU
