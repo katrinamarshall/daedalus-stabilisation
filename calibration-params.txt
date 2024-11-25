@@ -1,0 +1,12 @@
+Accelerometer:
+
+  bX = -23.516890;
+  bY = -21.227591;
+  bZ = 24.677328;
+
+  Xcal = 0.993065 *Xoff + 0.001346 *Yoff + -0.002491 *Zoff;
+  Ycal = 0.001346 *Xoff + 1.002852 *Yoff + 0.003693 *Zoff;
+  Zcal = -0.002491 *Xoff + 0.003693 *Yoff + 1.001164 *Zoff;
+
+Magnetometer:
+
