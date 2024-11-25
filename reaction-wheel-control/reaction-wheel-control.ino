@@ -4,6 +4,8 @@
 // The value of the last bit of the I2C address for the IMU
 // On the SparkFun 9DoF IMU breakout the default is 1, and when the ADR jumper is closed the value becomes 0
 #define AD0_VAL 1
+#define PWMPin 36
+#define directionPin 33
 
 ICM_20948_I2C myICM;
 
@@ -50,16 +52,21 @@ void setup() {
   }
 
   // ******* SETUP MOTOR
-  
+  pinMode(PWMPin, OUTPUT);
+  pinMode(directionPin, OUTPUT);
+
 }
 
+float target_velocity = 0;
 float error_accum = 0;
 float prev_error = 0;
+float desired_yaw = 0; 
+float Kp = 1;
+float Kd = 0; 
 
 void loop() {
-
-  motor.loopFOC();
   
+  // Convert 6DOF vector to Euler angles
   icm_20948_DMP_data_t data;
   myICM.readDMPdataFromFIFO(&data);
   if ((myICM.status == ICM_20948_Stat_Ok) || (myICM.status == ICM_20948_Stat_FIFOMoreDataAvail)) // Was valid data available?
@@ -82,7 +89,7 @@ void loop() {
       Serial.print(", ");
       Serial.println(q1, 2);
 
-      double qw = q0; // See issue #145 - thank you @Gord1
+      double qw = q0;
       double qx = q2;
       double qy = q1;
       double qz = -q3;
@@ -116,6 +123,19 @@ void loop() {
     delay(10);
   }
 
-  motor.move(target_velocity);
+  if (target_velocity > 0) 
+  {
+    digitalWrite(directionPin, 1);
+    analogWrite(PWMPin, target_velocity);
+  }
+  else if (target_velocity < 0)
+  {
+    digitalWrite(directionPin, 0);
+    analogWrite(PWMPin, -target_velocity);
+  }
+  else
+  {
+    analogWrite(PWMPin, 0);
+  }
 
 }

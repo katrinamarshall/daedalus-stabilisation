@@ -109,10 +109,11 @@ void loop() {
   Serial.print(F("Error:"));
   Serial.println(error, 2);
 
+  // Check the direction of rotation, might need to swap signs for velocity depending on the mounting of the IMU
   if (error > 20)
-    target_velocity = -1;
-  else if (error < -20)
     target_velocity = 1;
+  else if (error < -20)
+    target_velocity = -1;
   else
     target_velocity = 0;
 
